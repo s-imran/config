@@ -1,6 +1,5 @@
 #include <fstream>
 #include "Config.hpp"
-#include "Log.hpp"
 
 Config& Config::CreateInstance()
 {
@@ -21,7 +20,18 @@ void Config::LoadConfigFile(const std::string& configFilePath)
             if (positionOfDelimeter != std::string::npos)
             {
                 const std::string& configName = readLine.substr(0, positionOfDelimeter);
-                const std::string& configValue = readLine.substr(positionOfDelimeter + 1);
+                const std::string potentialconfigValue = readLine.substr(positionOfDelimeter + 1);
+
+		const size_t positionOfComment = poentialConfigValue.find("//");
+
+		if ( positionOfComment != std::string::npos )
+		{
+			potentialConfigValue = potentialConfigValue.substr( 0, positionOfComment );
+		}
+
+		potentialConfigValue.erase(
+			std::remove (potentialConfigValue.begin(), potentialConfigValue.end(), ' '),
+			potentialConfigValue.end());
                 m_config.insert(std::make_pair(configName, configValue));
             }
         }
