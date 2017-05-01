@@ -24,4 +24,6 @@
 *.out
 *.app
 
+test
+
 syntastic_conf
